@@ -5,6 +5,14 @@
  */
 package java_assignment;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Vincent Leong
@@ -31,7 +39,7 @@ public class Admin_Manager extends javax.swing.JFrame {
         ManagerManageAccount = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        MUserName = new javax.swing.JTextField();
+        MUsername = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -45,9 +53,9 @@ public class Admin_Manager extends javax.swing.JFrame {
         MDOB = new javax.swing.JTextField();
         MPWD = new javax.swing.JTextField();
         MPHnum = new javax.swing.JTextField();
-        MADR = new javax.swing.JTextField();
-        MROLE = new javax.swing.JTextField();
-        MGENDER = new javax.swing.JTextField();
+        Madr = new javax.swing.JTextField();
+        Mrole = new javax.swing.JTextField();
+        MGender = new javax.swing.JTextField();
         ButtonLogout = new javax.swing.JButton();
         ButtonDel = new javax.swing.JButton();
         ButtonEdit = new javax.swing.JButton();
@@ -65,7 +73,7 @@ public class Admin_Manager extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Fname", "Lname", "DOB", "Gender", "Password", "Phone number", "address", "role"
+                "Username", "Fname", "Lname", "DOB", "Gender", "Password", "Phone number", "address", "role"
             }
         ));
         jScrollPane1.setViewportView(ManagerManageAccount);
@@ -74,10 +82,9 @@ public class Admin_Manager extends javax.swing.JFrame {
 
         jLabel2.setText("UserName");
 
-        MUserName.setText("jTextField1");
-        MUserName.addActionListener(new java.awt.event.ActionListener() {
+        MUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MUserNameActionPerformed(evt);
+                MUsernameActionPerformed(evt);
             }
         });
 
@@ -97,21 +104,11 @@ public class Admin_Manager extends javax.swing.JFrame {
 
         jLabel10.setText("Gender");
 
-        MFname.setText("jTextField2");
-
-        MLname.setText("jTextField3");
-
-        MDOB.setText("jTextField4");
-
-        MPWD.setText("jTextField5");
-
-        MPHnum.setText("jTextField6");
-
-        MADR.setText("jTextField7");
-
-        MROLE.setText("jTextField8");
-
-        MGENDER.setText("jTextField9");
+        MPWD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MPWDActionPerformed(evt);
+            }
+        });
 
         ButtonLogout.setText("Logout");
         ButtonLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -150,25 +147,25 @@ public class Admin_Manager extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(MUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel3)
                                         .addGap(18, 18, 18)
-                                        .addComponent(MFname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(MFname))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addGap(18, 18, 18)
-                                        .addComponent(MLname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(51, 51, 51)
+                                        .addComponent(MLname, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(MUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(MPHnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(MPHnum, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel10))
                                     .addGroup(layout.createSequentialGroup()
@@ -176,21 +173,21 @@ public class Admin_Manager extends javax.swing.JFrame {
                                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING))
                                         .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(MDOB, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                                            .addComponent(MPWD))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(MDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(116, 116, 116)
-                                                .addComponent(jLabel8))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(MPWD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(120, 120, 120)
-                                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                .addGap(78, 78, 78)
+                                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGap(74, 74, 74)
+                                                .addComponent(jLabel8)))))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(MADR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(MROLE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(MGENDER, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(Madr, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+                                    .addComponent(Mrole)
+                                    .addComponent(MGender))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -216,42 +213,48 @@ public class Admin_Manager extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(MUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel8)
-                    .addComponent(MDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MADR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)
-                            .addComponent(MFname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MPWD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel10)
-                                .addComponent(MPHnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(MGENDER, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(MLname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(MROLE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ButtonDel)
-                    .addComponent(ButtonEdit)
-                    .addComponent(ButtonSearch)
-                    .addComponent(ButtonAdd)
-                    .addComponent(ButtonView))
-                .addGap(11, 11, 11)
-                .addComponent(ButtonLogout)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel8)
+                                .addComponent(MUsername))
+                            .addComponent(Madr, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel6)
+                                        .addComponent(MFname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(4, 4, 4)
+                                        .addComponent(MPWD, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel10)
+                                        .addComponent(MPHnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(MGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(MLname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Mrole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(141, 141, 141)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ButtonDel)
+                            .addComponent(ButtonEdit)
+                            .addComponent(ButtonSearch)
+                            .addComponent(ButtonAdd)
+                            .addComponent(ButtonView))
+                        .addGap(11, 11, 11)
+                        .addComponent(ButtonLogout))
+                    .addComponent(MDOB, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -266,12 +269,53 @@ public class Admin_Manager extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonLogoutActionPerformed
 
     private void ButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAddActionPerformed
-        // TODO add your handling code here:
+ String username = MUsername.getText();
+        String fname  =  MFname.getText();
+        String lname  = MLname.getText();
+        String dob  =  MDOB.getText();
+        String pwd  = MPWD.getText();
+        String phnum = MPHnum.getText();
+        String adr = Madr.getText();
+        String role = Mrole.getText();
+        String gender = MGender.getText();
+        
+        boolean duplicate = false;
+        
+        try {
+            File f = new File("ManagerAccManager");
+             Scanner s = new Scanner(f);
+             s.nextLine();
+             while(s.hasNextLine()){
+                 String row = s.nextLine();
+                 String data[] = row.split(",");
+                 if(data[0].equals(username)){
+                     duplicate = true;
+                     break;
+                 }
+             }
+        } catch (FileNotFoundException ex){
+            
+        }
+        if(duplicate){
+            JOptionPane.showMessageDialog(this,"Username has been taken, plase use another username.");
+        }else{
+            try{
+            PrintWriter p = new PrintWriter (new FileWriter("ManageAccManager",true));
+            p.println(username + "," + fname + "," + lname + "," + gender + "," + dob +"," + pwd + "," + phnum +"," + adr + "," + role);
+            p.close();
+        }   catch (IOException ex) {
+                
+            }
+            JOptionPane.showMessageDialog(this,"Registration Successful.");}        // TODO add your handling code here:
     }//GEN-LAST:event_ButtonAddActionPerformed
 
-    private void MUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MUserNameActionPerformed
+    private void MUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MUsernameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_MUserNameActionPerformed
+    }//GEN-LAST:event_MUsernameActionPerformed
+
+    private void MPWDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MPWDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MPWDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -315,16 +359,16 @@ public class Admin_Manager extends javax.swing.JFrame {
     private javax.swing.JButton ButtonLogout;
     private javax.swing.JButton ButtonSearch;
     private javax.swing.JButton ButtonView;
-    private javax.swing.JTextField MADR;
     private javax.swing.JTextField MDOB;
     private javax.swing.JTextField MFname;
-    private javax.swing.JTextField MGENDER;
+    private javax.swing.JTextField MGender;
     private javax.swing.JTextField MLname;
     private javax.swing.JTextField MPHnum;
     private javax.swing.JTextField MPWD;
-    private javax.swing.JTextField MROLE;
-    private javax.swing.JTextField MUserName;
+    private javax.swing.JTextField MUsername;
+    private javax.swing.JTextField Madr;
     private javax.swing.JTable ManagerManageAccount;
+    private javax.swing.JTextField Mrole;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

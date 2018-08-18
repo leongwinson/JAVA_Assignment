@@ -193,7 +193,7 @@ public class Login extends javax.swing.JFrame {
             } catch (FileNotFoundException ex) { 
                 System.out.println(ex);
             }
-    }else{ 
+    }else { 
                JOptionPane.showMessageDialog(this, "Error Loggin in. Username or password is wrong ");
                }
     

@@ -5,6 +5,21 @@
  */
 package java_assignment;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author Vincent Leong
@@ -33,9 +48,9 @@ public class Admin_Customer extends javax.swing.JFrame {
         UserName = new javax.swing.JLabel();
         CUsername = new javax.swing.JTextField();
         FirstName = new javax.swing.JLabel();
-        CFirstName = new javax.swing.JTextField();
+        CFname = new javax.swing.JTextField();
         LastName = new javax.swing.JLabel();
-        CLastName = new javax.swing.JTextField();
+        CLname = new javax.swing.JTextField();
         DOB = new javax.swing.JLabel();
         CDOB = new javax.swing.JTextField();
         Password = new javax.swing.JLabel();
@@ -43,9 +58,9 @@ public class Admin_Customer extends javax.swing.JFrame {
         MPHnum = new javax.swing.JLabel();
         CPHnum = new javax.swing.JTextField();
         Addres = new javax.swing.JLabel();
-        Madr = new javax.swing.JTextField();
+        Cadr = new javax.swing.JTextField();
         role = new javax.swing.JLabel();
-        Mrole = new javax.swing.JTextField();
+        Crole = new javax.swing.JTextField();
         ButtonADD = new javax.swing.JButton();
         ButtonSearch = new javax.swing.JButton();
         ButtonEdit = new javax.swing.JButton();
@@ -65,7 +80,7 @@ public class Admin_Customer extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Fname", "Lname", "Gender", "DOB", "Password", "Phone_number", "address", "role"
+                "Username", "Fname", "Lname", "Gender", "DOB", "Password", "Phone_number", "address", "role"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -130,6 +145,11 @@ public class Admin_Customer extends javax.swing.JFrame {
         Gender.setText("Gender");
 
         ButtonView.setText("View");
+        ButtonView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonViewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -145,11 +165,11 @@ public class Admin_Customer extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(LastName, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CLastName))
+                                .addComponent(CLname))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(FirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CFirstName))
+                                .addComponent(CFname))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(UserName)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -172,8 +192,8 @@ public class Admin_Customer extends javax.swing.JFrame {
                             .addComponent(Gender))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Madr, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
-                            .addComponent(Mrole)
+                            .addComponent(Cadr, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                            .addComponent(Crole)
                             .addComponent(CGender)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ButtonADD)
@@ -206,7 +226,7 @@ public class Admin_Customer extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(Addres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(Madr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(Cadr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(2, 2, 2))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(UserName)
@@ -215,16 +235,16 @@ public class Admin_Customer extends javax.swing.JFrame {
                                 .addComponent(CDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(role, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Mrole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Crole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(FirstName)
-                                .addComponent(CFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(CFname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(Password)))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(LastName)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(CLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CLname, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(MPHnum)
                         .addComponent(CPHnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(Gender)
@@ -250,6 +270,44 @@ public class Admin_Customer extends javax.swing.JFrame {
 
     private void ButtonADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonADDActionPerformed
         // TODO add your handling code here:
+        String username = CUsername.getText();
+        String fname  =  CFname.getText();
+        String lname  = CLname.getText();
+        String dob  =  CDOB.getText();
+        String pwd  = CPWD.getText();
+        String phnum = CPHnum.getText();
+        String adr = Cadr.getText();
+        String role = Crole.getText();
+        String gender = CGender.getText();
+        
+        boolean duplicate = false;
+        
+        try {
+            File f = new File("ManageAccCustomer.txt");
+             Scanner s = new Scanner(f);
+             while(s.hasNextLine()){
+                 String row = s.nextLine();
+                 String data[] = row.split(",");
+                 if(data[0].equals(username)){
+                     duplicate = true;
+                     break;
+                 }
+             }
+        } catch (FileNotFoundException ex){
+            
+        }
+        if(duplicate){
+            JOptionPane.showMessageDialog(this,"Username has been taken, plase use another username.");
+        }else{
+            try{
+            PrintWriter p = new PrintWriter (new FileWriter("ManageAccCustomer.txt",true));
+            p.println(username + "," + fname + "," + lname + "," + gender + "," + dob +"," + pwd + "," + phnum +"," + adr + "," + role);
+            p.close();
+        }   catch (IOException ex) {
+                
+            }
+            JOptionPane.showMessageDialog(this,"Registration Successful.");
+        }
     }//GEN-LAST:event_ButtonADDActionPerformed
 
     private void ButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEditActionPerformed
@@ -262,6 +320,34 @@ public class Admin_Customer extends javax.swing.JFrame {
                    i.setVisible(true);
                    this.setVisible(false);
     }//GEN-LAST:event_ButtonLogoutActionPerformed
+
+    private void ButtonViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonViewActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel table = (DefaultTableModel) CustomerManageTable.getModel();
+        table.setRowCount(0);
+        String search = CFname.getText();
+        
+        TableRowSorter<DefaultTableModel> sort = new TableRowSorter<> (table);
+        CustomerManageTable.setRowSorter(sort);
+        sort.setRowFilter(RowFilter.regexFilter(search));
+        table.setRowCount(0);
+        try{
+            FileReader f = new FileReader ("ManageAccCustomer.txt");
+            BufferedReader b = new BufferedReader(f);
+            String reader = b.readLine();
+            while((reader = b.readLine())!=null)
+            {
+                table.addRow(reader.split(","));
+                
+            }
+            b.close();
+           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Error");
+        }
+            
+        
+    }//GEN-LAST:event_ButtonViewActionPerformed
 
     /**
      * @param args the command line arguments
@@ -308,20 +394,20 @@ public class Admin_Customer extends javax.swing.JFrame {
     private javax.swing.JButton ButtonSearch;
     private javax.swing.JButton ButtonView;
     private javax.swing.JTextField CDOB;
-    private javax.swing.JTextField CFirstName;
+    private javax.swing.JTextField CFname;
     private javax.swing.JTextField CGender;
-    private javax.swing.JTextField CLastName;
+    private javax.swing.JTextField CLname;
     private javax.swing.JTextField CPHnum;
     private javax.swing.JTextField CPWD;
     private javax.swing.JTextField CUsername;
+    private javax.swing.JTextField Cadr;
+    private javax.swing.JTextField Crole;
     private javax.swing.JTable CustomerManageTable;
     private javax.swing.JLabel DOB;
     private javax.swing.JLabel FirstName;
     private javax.swing.JLabel Gender;
     private javax.swing.JLabel LastName;
     private javax.swing.JLabel MPHnum;
-    private javax.swing.JTextField Madr;
-    private javax.swing.JTextField Mrole;
     private javax.swing.JLabel Password;
     private javax.swing.JLabel UserName;
     private javax.swing.JLabel jLabel1;
