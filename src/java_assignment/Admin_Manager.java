@@ -5,13 +5,20 @@
  */
 package java_assignment;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -122,6 +129,11 @@ public class Admin_Manager extends javax.swing.JFrame {
         ButtonEdit.setText("Edit");
 
         ButtonSearch.setText("Search");
+        ButtonSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSearchActionPerformed(evt);
+            }
+        });
 
         ButtonAdd.setText("Add");
         ButtonAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -131,6 +143,11 @@ public class Admin_Manager extends javax.swing.JFrame {
         });
 
         ButtonView.setText("View");
+        ButtonView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonViewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -282,7 +299,7 @@ public class Admin_Manager extends javax.swing.JFrame {
         boolean duplicate = false;
         
         try {
-            File f = new File("ManagerAccManager");
+            File f = new File("ManageAccManager.txt");
              Scanner s = new Scanner(f);
              s.nextLine();
              while(s.hasNextLine()){
@@ -300,7 +317,7 @@ public class Admin_Manager extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Username has been taken, plase use another username.");
         }else{
             try{
-            PrintWriter p = new PrintWriter (new FileWriter("ManageAccManager",true));
+            PrintWriter p = new PrintWriter (new FileWriter("ManageAccManager.txt",true));
             p.println(username + "," + fname + "," + lname + "," + gender + "," + dob +"," + pwd + "," + phnum +"," + adr + "," + role);
             p.close();
         }   catch (IOException ex) {
@@ -316,6 +333,80 @@ public class Admin_Manager extends javax.swing.JFrame {
     private void MPWDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MPWDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MPWDActionPerformed
+
+    private void ButtonViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonViewActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel table = (DefaultTableModel) ManagerManageAccount.getModel();
+        table.setRowCount(0);
+        String search = MFname.getText();
+        
+        TableRowSorter<DefaultTableModel> sort = new TableRowSorter<> (table);
+        ManagerManageAccount.setRowSorter(sort);
+        sort.setRowFilter(RowFilter.regexFilter(search));
+        table.setRowCount(0);
+        try{
+            FileReader f = new FileReader ("ManageAccManager.txt");
+            BufferedReader b = new BufferedReader(f);
+            String reader = b.readLine();
+            while((reader = b.readLine())!=null)
+            {
+                table.addRow(reader.split(","));
+                
+            }
+            b.close();
+           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Error");
+        }
+    }//GEN-LAST:event_ButtonViewActionPerformed
+
+    private void ButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSearchActionPerformed
+        // TODO add your handling code here:
+        String searchUsername = MUsername.getText();
+        String searchFname = MFname.getText();
+        String searchRole = Mrole.getText();
+        boolean status = false;
+        
+        if ((!searchUsername.equals(""))&& (!searchFname.equals(""))&&(searchRole.equals(""))){
+        }
+            else if(!searchUsername.equals("")){
+                    try{
+                        File f = new File("ManageAccManager.txt");
+                        Scanner sc = new Scanner(f);
+                        DefaultTableModel model = (DefaultTableModel)ManagerManageAccount.getModel();
+                        int rowcount = model.getRowCount();
+                        for (int i = rowcount - 1 ; i>= 0; i--){
+                            model.removeRow(i);
+                        }
+                        sc.nextLine();
+                        while(sc.hasNextLine()){
+                            String data[] = sc.nextLine().split(",");
+                            String Username = data[0];
+                        if (searchUsername.equalsIgnoreCase(Username)){
+                            MUsername.setText(data[0]);
+                            MPWD.setText(data[1]);
+                            MFname.setText(data[2]);
+                            MLname.setText(data[3]);
+                            MDOB.setText(data[4]);
+                            MPWD.setText(data[5]);
+                            MPHnum.setText(data[6]);
+                            Madr.setText(data[7]);
+                            Mrole.setText(data[8]);
+                            
+                            model.addRow(data);
+                            status = true;
+                            break;
+                        }
+                        }
+                    } catch (FileNotFoundException ex) {
+                Logger.getLogger(Admin_Customer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                    if(status == false){ JOptionPane.showMessageDialog(this, "no such thing");
+                        
+                    }
+                    }
+        
+    }//GEN-LAST:event_ButtonSearchActionPerformed
 
     /**
      * @param args the command line arguments

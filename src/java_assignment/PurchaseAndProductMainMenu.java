@@ -5,6 +5,13 @@
  */
 package java_assignment;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.text.DecimalFormat;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author Vincent Leong
@@ -16,8 +23,8 @@ public class PurchaseAndProductMainMenu extends javax.swing.JFrame {
      */
     public PurchaseAndProductMainMenu() {
         initComponents();
+       
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,10 +39,13 @@ public class PurchaseAndProductMainMenu extends javax.swing.JFrame {
         ProductTable = new javax.swing.JTable();
         GoToCart = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        PubchaseCartTable = new javax.swing.JTable();
+        PurchaseCartTable = new javax.swing.JTable();
         CancelButtomP = new javax.swing.JButton();
         ButtonPurchase = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtQty = new javax.swing.JTextField();
+        ButtonView = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,13 +53,13 @@ public class PurchaseAndProductMainMenu extends javax.swing.JFrame {
 
         ProductTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Product ID", "Product Name", "Qty", "Price"
+                "Product ID", "Product Name", "Price"
             }
         ));
         jScrollPane1.setViewportView(ProductTable);
@@ -62,7 +72,7 @@ public class PurchaseAndProductMainMenu extends javax.swing.JFrame {
             }
         });
 
-        PubchaseCartTable.setModel(new javax.swing.table.DefaultTableModel(
+        PurchaseCartTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -73,7 +83,7 @@ public class PurchaseAndProductMainMenu extends javax.swing.JFrame {
                 "Product ID", "Product Name", "Qty", "Price"
             }
         ));
-        jScrollPane2.setViewportView(PubchaseCartTable);
+        jScrollPane2.setViewportView(PurchaseCartTable);
 
         CancelButtomP.setText("Cancel Item");
         CancelButtomP.addActionListener(new java.awt.event.ActionListener() {
@@ -85,6 +95,15 @@ public class PurchaseAndProductMainMenu extends javax.swing.JFrame {
         ButtonPurchase.setText("Purchase");
 
         jLabel2.setText("Purchase Cart");
+
+        jLabel3.setText("Qty");
+
+        ButtonView.setText("View");
+        ButtonView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonViewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,7 +117,7 @@ public class PurchaseAndProductMainMenu extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 652, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(CancelButtomP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ButtonPurchase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -108,8 +127,14 @@ public class PurchaseAndProductMainMenu extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 652, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(GoToCart)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(ButtonView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtQty)
+                                .addComponent(GoToCart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(65, 65, 65))))
         );
         layout.setVerticalGroup(
@@ -119,10 +144,18 @@ public class PurchaseAndProductMainMenu extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(GoToCart))
-                .addGap(100, 100, 100)
-                .addComponent(jLabel2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(GoToCart)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ButtonView)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -138,11 +171,73 @@ public class PurchaseAndProductMainMenu extends javax.swing.JFrame {
 
     private void GoToCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoToCartActionPerformed
         // TODO add your handling code here:
+       
+ String qty = txtQty.getText();
+        float qty1 = Float.parseFloat(qty);
+        String price1 = (String) ProductTable.getModel().getValueAt(ProductTable.getSelectedRow(),2);
+        float price2 = Float.parseFloat(price1) * qty1;
+        String price3 = Float.toString(price2);
+  
+        
+//        String qty = txtQty.getText();
+//        double qty1 = Double.parseDouble(qty);
+//        String price1 = (String) ProductTable.getModel().getValueAt(ProductTable.getSelectedRow(),2);
+//        double price2 = Double.parseDouble(price1) * qty1;
+//        String price3 = Double.toString(price2);
+// 
+//        DefaultTableModel table = (DefaultTableModel) PurchaseCartTable.getModel();
+//        table.setRowCount(0);
+       
+        
+//        TableRowSorter<DefaultTableModel> sort = new TableRowSorter<> (table);
+//        PurchaseCartTable.setRowSorter(sort);
+        
+//        table.setRowCount(0);
+        PurchaseCartTable.setValueAt((Object)ProductTable.getModel().getValueAt(ProductTable.getSelectedRow(),0), 0,0);
+        PurchaseCartTable.setValueAt((Object)ProductTable.getModel().getValueAt(ProductTable.getSelectedRow(),1), 0,1);
+        PurchaseCartTable.setValueAt((Object)qty, 0,2);
+        PurchaseCartTable.setValueAt((Object)price3, 0,3);
+        
+           
+               
+        
     }//GEN-LAST:event_GoToCartActionPerformed
 
     private void CancelButtomPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtomPActionPerformed
         // TODO add your handling code here:
+DefaultTableModel model = (DefaultTableModel) this.PurchaseCartTable.getModel();
+          int[] rows = PurchaseCartTable.getSelectedRows();
+          for(int i=0;i<rows.length;i++){
+          model.removeRow(rows[i]-i);
+   }
     }//GEN-LAST:event_CancelButtomPActionPerformed
+
+    private void ButtonViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonViewActionPerformed
+        // TODO add your handling code here:
+        String qty = txtQty.getText();
+        DefaultTableModel table = (DefaultTableModel) ProductTable.getModel();
+        table.setRowCount(0);
+        
+        
+        TableRowSorter<DefaultTableModel> sort = new TableRowSorter<> (table);
+        ProductTable.setRowSorter(sort);
+        
+        table.setRowCount(0);
+        try{
+            FileReader f = new FileReader ("Product.txt");
+            BufferedReader b = new BufferedReader(f);
+            String reader = b.readLine();
+            while((reader = b.readLine())!=null)
+            {
+                table.addRow(reader.split(","));
+                
+            }
+            b.close();
+           
+        } catch (Exception e) {
+            
+        }
+    }//GEN-LAST:event_ButtonViewActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,13 +277,16 @@ public class PurchaseAndProductMainMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonPurchase;
+    private javax.swing.JButton ButtonView;
     private javax.swing.JButton CancelButtomP;
     private javax.swing.JButton GoToCart;
     private javax.swing.JTable ProductTable;
-    private javax.swing.JTable PubchaseCartTable;
+    private javax.swing.JTable PurchaseCartTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField txtQty;
     // End of variables declaration//GEN-END:variables
 }

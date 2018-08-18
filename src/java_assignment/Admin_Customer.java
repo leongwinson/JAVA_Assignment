@@ -125,6 +125,11 @@ public class Admin_Customer extends javax.swing.JFrame {
         });
 
         ButtonSearch.setText("Search");
+        ButtonSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSearchActionPerformed(evt);
+            }
+        });
 
         ButtonEdit.setText("Edit");
         ButtonEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -288,7 +293,8 @@ public class Admin_Customer extends javax.swing.JFrame {
              while(s.hasNextLine()){
                  String row = s.nextLine();
                  String data[] = row.split(",");
-                 if(data[0].equals(username)){
+                 if(data[0].equals(username))
+                   {
                      duplicate = true;
                      break;
                  }
@@ -348,6 +354,55 @@ public class Admin_Customer extends javax.swing.JFrame {
             
         
     }//GEN-LAST:event_ButtonViewActionPerformed
+
+    private void ButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSearchActionPerformed
+        // TODO add your handling code here:
+        String searchUsername = CUsername.getText();
+        String searchFname = CFname.getText();
+        String searchRole = Crole.getText();
+        boolean status = false;
+        
+        if ((!searchUsername.equals(""))&& (!searchFname.equals(""))&&(searchRole.equals(""))){
+        }
+            else if(!searchUsername.equals("")){
+                    try{
+                        File f = new File("ManageAccCustomer.txt");
+                        Scanner sc = new Scanner(f);
+                        DefaultTableModel model = (DefaultTableModel)CustomerManageTable.getModel();
+                        int rowcount = model.getRowCount();
+                        for (int i = rowcount - 1 ; i>= 0; i--){
+                            model.removeRow(i);
+                        }
+                        sc.nextLine();
+                        while(sc.hasNextLine()){
+                            String data[] = sc.nextLine().split(",");
+                            String Username = data[0];
+                        if (searchUsername.equalsIgnoreCase(Username)){
+                            CUsername.setText(data[0]);
+                            CPWD.setText(data[1]);
+                            CFname.setText(data[2]);
+                            CLname.setText(data[3]);
+                            CDOB.setText(data[4]);
+                            CPWD.setText(data[5]);
+                            CPHnum.setText(data[6]);
+                            Cadr.setText(data[7]);
+                            Crole.setText(data[8]);
+                            
+                            model.addRow(data);
+                            status = true;
+                            break;
+                        }
+                        }
+                    } catch (FileNotFoundException ex) {
+                Logger.getLogger(Admin_Customer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                    if(status == false){ JOptionPane.showMessageDialog(this, "no such thing");
+                        
+                    }
+                    }
+        
+        
+    }//GEN-LAST:event_ButtonSearchActionPerformed
 
     /**
      * @param args the command line arguments
